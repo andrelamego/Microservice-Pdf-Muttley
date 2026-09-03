@@ -5,6 +5,7 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.Margin;
 import com.microsoft.playwright.options.Media;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -30,7 +31,7 @@ public class PdfService {
             return page.pdf(new Page.PdfOptions()
                     .setFormat("A4")
                     .setPrintBackground(true)
-                    .setMargin(new com.microsoft.playwright.options.Margin()
+                    .setMargin(new Margin()
                             .setTop("1.5cm").setBottom("1.5cm")
                             .setLeft("1cm").setRight("1cm")));
         }
