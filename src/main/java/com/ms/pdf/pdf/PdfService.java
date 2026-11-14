@@ -28,12 +28,14 @@ public class PdfService {
             page.waitForLoadState(LoadState.NETWORKIDLE);
             page.emulateMedia(new Page.EmulateMediaOptions().setMedia(Media.PRINT));
 
+            // O documento manda no tamanho e nas margens (@page); A4 vale só se ele não declarar nada.
             return page.pdf(new Page.PdfOptions()
                     .setFormat("A4")
+                    .setPreferCSSPageSize(true)
                     .setPrintBackground(true)
                     .setMargin(new Margin()
-                            .setTop("1.5cm").setBottom("1.5cm")
-                            .setLeft("1cm").setRight("1cm")));
+                            .setTop("0").setBottom("0")
+                            .setLeft("0").setRight("0")));
         }
     }
 

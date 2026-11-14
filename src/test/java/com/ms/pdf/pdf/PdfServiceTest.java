@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class PdfServiceTest {
-    @Test void renderizaHtmlEmA4ComFundoEMargensEFechaPagina() {
+    @Test void respeitaOTamanhoDaPaginaDoDocumentoComFundoEFechaPagina() {
         Browser browser=mock(Browser.class); Page page=mock(Page.class); var service=new PdfService();
         ReflectionTestUtils.setField(service,"browser",browser);
         when(browser.newPage()).thenReturn(page); when(page.pdf(any())).thenReturn(new byte[]{37,80,68,70});
@@ -17,8 +17,9 @@ class PdfServiceTest {
         ordem.verify(page).waitForLoadState(LoadState.NETWORKIDLE);
         ordem.verify(page).emulateMedia(argThat(o -> o.media.orElse(null)==Media.PRINT));
         ordem.verify(page).pdf(argThat(o -> "A4".equals(o.format) && Boolean.TRUE.equals(o.printBackground)
-                && "1.5cm".equals(o.margin.top) && "1.5cm".equals(o.margin.bottom)
-                && "1cm".equals(o.margin.left) && "1cm".equals(o.margin.right)));
+                && Boolean.TRUE.equals(o.preferCSSPageSize)
+                && "0".equals(o.margin.top) && "0".equals(o.margin.bottom)
+                && "0".equals(o.margin.left) && "0".equals(o.margin.right)));
         ordem.verify(page).close();
     }
     @Test void falhaNaRenderizacaoAindaFechaPagina() {
